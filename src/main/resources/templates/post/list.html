@@ -39,7 +39,7 @@
 
   <!-- 카드 리스트 -->
   <section class="grid-container container">
-    <div class="card" th:each="post : ${postList}">
+    <div class="card" th:each="dto : ${list}">
     
       <a th:href="@{/post/post(id=${dto.no})}">
       

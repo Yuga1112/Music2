@@ -8,9 +8,6 @@ import com.example.demo.entity.Post;
 //JpaRepository 상속받기
 //엔티티와 pk타입 지정
 
-//public interface BoardRepository extends JpaRepository<Board, Integer> { 
-//}
-
 //QuerydslPredicateExecutor 상속 추가
 public interface PostRepository extends JpaRepository<Post, Integer> { 
 }
