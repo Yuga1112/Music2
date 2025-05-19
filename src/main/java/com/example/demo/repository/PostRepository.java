@@ -12,5 +12,5 @@ import com.example.demo.entity.Post;
 //}
 
 //QuerydslPredicateExecutor 상속 추가
-public interface PostRepository extends JpaRepository<Post, Integer>, QuerydslPredicateExecutor<Post> { 
+public interface PostRepository extends JpaRepository<Post, Integer> { 
 }
