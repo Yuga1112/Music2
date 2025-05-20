@@ -31,16 +31,16 @@ public class PostController {
 		
 	}
 	
-	@GetMapping("/register")
+	@GetMapping("/post")
 	public void register() {
 		
 	}
 	
-	@PostMapping("/register")
+	@PostMapping("/post")
 	public String registerPost(PostDTO dto, RedirectAttributes redirectAttributes) {
 		int no = service.register(dto);
 		
-		return "redirect:/post/login";
+		return "redirect:/post/list";
 		
 	}
 	
@@ -50,7 +50,7 @@ public class PostController {
 		model.addAttribute("list", list);
 	}
 	
-	@GetMapping("/post")
+	@GetMapping("/read")
 	public void read(@RequestParam(name = "no") int no, Model model) {
 		PostDTO dto = service.read(no);
 		model.addAttribute("dto", dto);
