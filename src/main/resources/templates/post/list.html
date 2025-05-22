@@ -11,26 +11,35 @@
 </head>
 
 <body>
-  <!-- 네비게이션 -->
-  <header>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/main">
-          <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="로고" width="30" height="24">
-        </a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="#">글쓰기</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">음악소개</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">질문</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">캘린더</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">마이페이지</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">로그인</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+   <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/post/home}">로고</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/post/post}">글쓰기</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/post/list}">글 모음</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">마이페이지</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/post/login}">로그인</a>
+                        </li>
+                    </ul>
+    
+                </div>
+            </div>
+        </nav>
+        </header>
 
   <!-- 제목 -->
   <section class="container mt-4">
@@ -41,13 +50,13 @@
   <section class="grid-container container">
     <div class="card" th:each="dto : ${list}">
     
-      <a th:href="@{/post/post(id=${dto.no})}">
+      <a th:href="@{/post/read(id=${dto.no})}">
       
         <!-- <img th:src="${post.imageUrl != null ? post.imageUrl : 'https://via.placeholder.com/300x180'}"
              class="card-img-top" alt="게시글 이미지"> -->
       </a>
       <div class="card-content">
-        <a th:href="@{/post/post(no=${dto.no})}" class="h5 d-block mb-1">[[${dto.title}]]</a>
+        <a th:href="@{/post/read(no=${dto.no})}" class="h5 d-block mb-1">[[${dto.title}]]</a>
         <div class="card-meta">
          <span> [[${dto.writer}]] ·
           [[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</span>

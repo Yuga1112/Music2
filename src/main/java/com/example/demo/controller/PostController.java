@@ -55,4 +55,22 @@ public class PostController {
 		PostDTO dto = service.read(no);
 		model.addAttribute("dto", dto);
 	}
+	
+	@GetMapping("/modify")
+	public void modify(@RequestParam(name="no") int no, Model model) {
+		PostDTO dto = service.read(no);
+		model.addAttribute("dto", dto);
+	}
+	
+	@PostMapping("/modify")
+	public String modifyPost(PostDTO dto, RedirectAttributes redirectAttributes) {
+		service.modify(dto);
+		redirectAttributes.addAttribute("no", dto.getNo());
+		return  "redirect:/post/read";
+	}
+	@PostMapping("/remove")
+	public String removePost(@RequestParam("no") int no) {
+		service.remove(no);
+		return "redirect:/post/list";
+	}
 }

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+ <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{/post/home}">로고</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/post/post}">글쓰기</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/post/list}">글 모음</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">마이페이지</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/post/login}">로그인</a>
+                        </li>
+                    </ul>
+    
+                </div>
+            </div>
+        </nav>
+        </header>
+        
+
+        <form>
+
+            <div class="form-group">
+                <label>제목</label>
+                <input type="text" class="form-control" name="title" th:value="${dto.title}">
+            </div>
+            <div class="form-group">
+                <label>내용</label>
+                <textarea class="form-control" rows="5" name="content">[[${dto.content}]]</textarea>
+            </div>
+            <div class="form-group">
+                <label>작성자</label>
+                <input type="text" class="form-control" name="writer" th:value="${dto.writer}" readonly>
+            </div>
+            <div class="form-group">
+                <label>등록일</label>
+                <input type="text" class="form-control"
+                    th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+            </div>
+            <!-- <div class="mb-3">
+                            <label></label>
+                            <select class="form-select" th:field="*{music}" id="musicSelect">
+                                <option value="" disabled selected>음악을 선택하세요</option>
+                             
+                                <option th:each="music : ${musicList}" th:value="${music.id}" th:text="${music.title}"></option>
+                            </select>
+           </div> -->
+
+        </form>
+
+        <button type="button" class="btn btn-primary modifyBtn">수정</button>
+
+        <button type="button" class="btn btn-info listBtn">목록으로</button>
+
+        <button type="button" class="btn btn-danger removeBtn">삭제</button>
+
+        <script th:inline="javascript">
+
+          
+            var form = $("form"); 
+
+            $(".modifyBtn").click(function () {
+                form
+                    .attr("action", "/post/modify")
+                    .attr("method", "post")
+                    .submit();
+            });
+
+            $(".listBtn").click(function () {
+                form
+                    .attr("action", "/post/list")
+                    .attr("method", "get")
+                    .submit();
+            })
+
+            $(".removeBtn").click(function () {
+                form
+                    .attr("action", "/post/remove")
+                    .attr("method", "post")
+                    .submit();
+            });
+
+        </script>
+
+
+ 
+</body>
+</html>
