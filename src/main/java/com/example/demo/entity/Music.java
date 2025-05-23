@@ -38,14 +38,18 @@ public class Music {
 	//장르
 	//엔티티를 넣고 싶은데 좀 무리
 		
-	@Column(columnDefinition = "TEXT")
-	String lyrics;
-	//가사
+//	@Column(columnDefinition = "TEXT")
+//	String lyrics;
+//	//가사
 	
 	@Column(length = 50)
 	String albumName;
 	
 	@Column(columnDefinition = "TEXT")
 	String content;
+	
+    // 양방향 매핑을 원할 경우
+//    @OneToMany(mappedBy = "music")
+//    List<Post> posts = new ArrayList<>();
 	
 }

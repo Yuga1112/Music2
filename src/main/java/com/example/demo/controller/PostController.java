@@ -73,4 +73,10 @@ public class PostController {
 		service.remove(no);
 		return "redirect:/post/list";
 	}
+	
+	@GetMapping("/callback")
+	public String callback(@RequestParam String code) {
+
+	    return "redirect:/post";
+	}
 }
