@@ -32,6 +32,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.4.1'	
+implementation 'org.json:json:20240303'
 	
 
 /*	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
