@@ -9,7 +9,7 @@ public interface MusicService {
 	String getPlaylistTracks(String playlistId) throws Exception;
 
 	//재생목록에서 첫번째 반환
-	String getFirstTrackPreviewUrl(String playlistId);
+	String getFirstTrackFromPlaylist(String playlistId) throws Exception;
 	
 	
 	}

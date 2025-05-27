@@ -14,8 +14,8 @@ import com.example.demo.service.MusicService;
 
 @SpringBootTest
 @TestPropertySource(properties = {
-    "spotify.client.id=test-client-id",
-    "spotify.client.secret=test-client-secret"
+    "spotify.client.id=5599bee3670b4ce78e20765160bfe3ea",
+    "spotify.client.527b41bc7ddf4aa3a3d4adad39fc5de0"
 })
 public class MusicServiceTest {
 
@@ -29,6 +29,32 @@ public class MusicServiceTest {
         assertFalse(token.isBlank());
         System.out.println("Access Token: " + token);
     }
+    
+    @Test
+    public void 재생목록테스트() throws Exception { 
+    	 
+    	    String playlistId = "0lbdVv8GxIpJehtEca2FFu";
+
+    	    String result = service.getPlaylistTracks(playlistId);
+
+    	    assertNotNull(result);
+    	    assertTrue(result.contains("tracks"));
+
+    	    System.out.println("✅ Playlist JSON Response:\n" + result);
+    
+    }
+    
+    @Test
+	public void 트랙선택() throws Exception {
+		
+		 String playlistId = "0lbdVv8GxIpJehtEca2FFu";
+
+	        String firstTrack = service.getFirstTrackFromPlaylist(playlistId);
+
+	        assertNotNull(firstTrack);
+	        System.out.println("첫 번째 트랙 정보:\n" + firstTrack);
+		
+	}
     
 }
 
