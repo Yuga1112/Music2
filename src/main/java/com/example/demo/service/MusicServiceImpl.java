@@ -44,8 +44,20 @@ public class MusicServiceImpl implements MusicService{
 	    }
 
 	@Override
-	public String getPlaylistTracks(String playlistId) {
-		// TODO Auto-generated method stub
+	public String getPlaylistTracks(String playlistId) throws Exception {
+//		
+//		String token = getAccessToken();
+//
+//        HttpRequest request = HttpRequest.newBuilder()
+//                .uri(new URI("https://api.spotify.com/v1/playlists/" + playlistId))
+//                .header("Authorization", "Bearer " + token)
+//                .GET()
+//                .build();
+//
+//        HttpClient client = HttpClient.newHttpClient();
+//        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//
+//       return response.body();
 		return null;
 	}
 
