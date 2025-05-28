@@ -9,56 +9,57 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-import org.springframework.http.HttpHeaders;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
+
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.demo.config.SpotifyConfig;
+
 import com.example.demo.dto.MusicDTO;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 @Service
 public class MusicServiceImpl implements MusicService{
 	
 	@Autowired
 	SpotifyConfig config;
-	ObjectMapper objectMapper;
-	
+	 public MusicServiceImpl(WebClient webClient) {
+	        this.webClient = webClient;
+	    }
+	 
+	WebClient webClient;
+
+	   
+	   
 	
 	 public String getAccessToken() throws Exception {
 		    String clientId = config.clientId;
 		    String clientSecret = config.clientSecret;
+		        String auth = clientId + ":" + clientSecret;
+		        String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
 
-		    String auth = Base64.getEncoder().encodeToString((clientId + ":" + clientSecret).getBytes());
+		        HttpRequest request = HttpRequest.newBuilder()
+		                .uri(new URI("https://accounts.spotify.com/api/token"))
+		                .header("Authorization", "Basic " + encodedAuth)
+		                .header("Content-Type", "application/x-www-form-urlencoded")
+		                .POST(HttpRequest.BodyPublishers.ofString("grant_type=client_credentials"))
+		                .build();
 
-		    HttpRequest request = HttpRequest.newBuilder()
-		            .uri(URI.create("https://accounts.spotify.com/api/token"))
-		            .header("Authorization", "Basic " + auth)
-		            .header("Content-Type", "application/x-www-form-urlencoded")
-		            .POST(HttpRequest.BodyPublishers.ofString("grant_type=client_credentials"))
-		            .build();
+		        HttpClient client = HttpClient.newHttpClient();
+		        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-		    HttpClient client = HttpClient.newHttpClient();
-		    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+		        if (response.statusCode() != 200) {
+		            throw new RuntimeException("Spotify 토큰 발급 실패: " + response.body());
+		        }
 
-		    String responseBody = response.body();
-		    System.out.println("Token Response:\n" + responseBody);
-
-		    JSONObject json = new JSONObject(responseBody);
-		    if (!json.has("access_token")) {
-		        throw new RuntimeException("❌ Access token을 가져올 수 없습니다.");
+		        JSONObject json = new JSONObject(response.body());
+		        return json.getString("access_token");
 		    }
-
-		    return json.getString("access_token");
-		}
+		
 
 
 	 @Override
@@ -137,47 +138,24 @@ public class MusicServiceImpl implements MusicService{
 	            .build();
 	}
 
+
 	@Override
-    public List<MusicDTO> searchTracks(String query) throws Exception {
-        String token = getAccessToken();
+	public String search(String query, String type, String market, int limit, int offset, boolean includeExternal)
+			throws Exception {
 
-        String url = UriComponentsBuilder
-                .fromUriString("https://api.spotify.com/v1/search")
-                .queryParam("q", query)
-                .queryParam("type", "track")
-                .queryParam("limit", 10)
-                .build()
-                .toUriString();
+		String accessToken = getAccessToken();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(token);
+		return webClient.get()
+				.uri(uriBuilder -> uriBuilder.path("/v1/search").queryParam("q", query).queryParam("type", type)
+						.queryParam("market", market).queryParam("limit", limit).queryParam("offset", offset)
+						.queryParam("include_external", includeExternal ? "audio" : null).build())
+				.headers(headers -> headers.setBearerAuth(accessToken))
+				.retrieve().bodyToMono(String.class).block();
+	}
 
-        HttpEntity<Void> request = new HttpEntity<>(headers);
-        RestTemplate restTemplate = new RestTemplate();
 
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, request, String.class);
-        return parseTrackResults(response.getBody());
-    }
 
-    private List<MusicDTO> parseTrackResults(String json) throws Exception {
-        List<MusicDTO> tracks = new ArrayList<>();
-        JsonNode items = objectMapper.readTree(json).path("tracks").path("items");
-
-        for (JsonNode item : items) {
-            String name = item.path("name").asText();
-            String artist = item.path("artists").get(0).path("name").asText();
-            String imageUrl = item.path("album").path("images").get(0).path("url").asText();
-
-            MusicDTO dto = MusicDTO.builder()
-            	    .name(name)
-            	    .artist(artist)
-            	    .imageUrl(imageUrl)
-            	    .build();
-        }
-
-        return tracks;
-    }
-    
+	
 	}
 
 

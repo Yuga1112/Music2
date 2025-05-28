@@ -15,9 +15,9 @@ public interface MusicService {
 
 	//재생목록에서 첫번째 반환
 	MusicDTO getTrackFromPlaylist(String playlistId, int index) throws Exception;
-
 	
-	    Mono<String> search(String query, String type, String market, int limit, int offset, boolean includeExternal);
+	// 음악검색
+	String search(String query, String type, String market, int limit, int offset, boolean includeExternal) throws Exception;
 	}
 
 
