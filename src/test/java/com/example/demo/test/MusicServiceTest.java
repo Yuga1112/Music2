@@ -62,7 +62,15 @@ public class MusicServiceTest {
     
     @Test
     public void 음악검색() throws Exception {
-        String result = service.search("Beatles", "track", "US", 5, 0, false);
+        String result = service.search("Beatles", "track", "US", 1, 0, false);
+        
+        //1. 검색할 키워드
+        //2. 컨텐츠 종류 (앨범, 가수, 플리, 노래, 팟캐스트, 팟캐스트에피소드...?
+        //3. 국가
+        //4. 나온결과 갯수
+        //5. 몇번 결과부터 출력하는지
+        //6. 외부콘텐츠 포함여부
+        
         assertNotNull(result);
         assertTrue(result.contains("tracks"));
         System.out.println(result);

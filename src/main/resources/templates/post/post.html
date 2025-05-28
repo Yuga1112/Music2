@@ -43,28 +43,39 @@
 
         <form th:action="@{/post/post}" th:method="post">
 
-            <div class="mb-3">
-                <label></label>
-                <input type="text" class="form-control" name="title" placeholder="제목을 입력하세요" required>
-            </div>
+			<div class="mb-3">
+				<label></label> <input type="text" class="form-control" name="title"
+					placeholder="제목을 입력하세요" required>
+			</div>
 
-            <div class="mb-3">
-                <label></label>
-                <input type="text" class="form-control" name="writer" placeholder="작성자" required>
-            </div>
+			<div class="mb-3">
+				<label></label> <input type="text" class="form-control"
+					name="writer" placeholder="작성자" required>
+			</div>
 
-            <div class="mb-3">
-                <label></label>
-                <input type="text" class="form-control" name="music" placeholder="음악" readonly>
-            </div>
+			<div class="mb-3">
+			<label></label> 
+				<div class="input-group">
+				<input type="text" id="musicQuery" class="form-control"
+						placeholder="검색할 음악을 입력하세요" />
+					<button type="button" class="btn btn-primary"
+						onclick="searchMusic()">검색</button>
+				</div>
+			</div>
 
-            <div class="mb-3">
-                <label></label>
-                <textarea class="form-control" name="content" rows="6" placeholder="내용을 입력하세요"
-                    required></textarea>
-            </div>
+			<div class="mb-3">
+			<label></label>
+				<input type="text" class="form-control" name="music"
+					placeholder="음악" readonly>
+			</div>
 
-            <button type="submit" class="btn btn-primary">글 작성</button>
+			<div class="mb-3">
+				<label></label>
+				<textarea class="form-control" name="content" rows="6"
+					placeholder="내용을 입력하세요" required></textarea>
+			</div>
+
+			<button type="submit" class="btn btn-primary">글 작성</button>
             <a th:href="@{/post/list}" class="btn btn-secondary">목록으로</a>
         </form>
     </div>
