@@ -5,11 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 //import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
+import com.example.demo.dto.MusicDTO;
 import com.example.demo.service.MusicService;
 
 @SpringBootTest
@@ -33,28 +36,31 @@ public class MusicServiceTest {
     @Test
     public void 재생목록테스트() throws Exception { 
     	 
-    	    String playlistId = "0lbdVv8GxIpJehtEca2FFu";
+    	        String playlistId = "0lbdVv8GxIpJehtEca2FFu";
 
-    	    String result = service.getPlaylistTracks(playlistId);
+    	        List<MusicDTO> result = service.getPlaylistTracks(playlistId);
 
-    	    assertNotNull(result);
-    	    assertTrue(result.contains("tracks"));
+    	        assertNotNull(result);
+    	        assertFalse(result.isEmpty());
 
-    	    System.out.println("✅ Playlist JSON Response:\n" + result);
-    
-    }
+    	        System.out.println("✅ Playlist Tracks:");
+    	        for (MusicDTO track : result) {
+    	            System.out.println(track);
+    	        }
+    	    }
+
     
     @Test
 	public void 트랙선택() throws Exception {
-		
-		 String playlistId = "0lbdVv8GxIpJehtEca2FFu";
+	        
+	        MusicDTO result = service.getTrackFromPlaylist("0lbdVv8GxIpJehtEca2FFu", 3);  // 두 번째 트랙
+	        System.out.println("Track Info: " + result);
 
-	        String firstTrack = service.getFirstTrackFromPlaylist(playlistId);
 
-	        assertNotNull(firstTrack);
-	        System.out.println("첫 번째 트랙 정보:\n" + firstTrack);
 		
 	}
+    
+    
     
 }
 
